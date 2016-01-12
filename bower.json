@@ -1,0 +1,21 @@
+{
+    "name": "eat-coin",
+    "private": true,
+    "dependencies": {
+        "jquery": "~2.1.4",
+        "PACE": "pace#~1.0.2",
+        "Swiper": "swiper#~3.3.0"
+    },
+    "overrides": {
+        "bootstrap-sass": {
+            "main": [
+                "assets/stylesheets/_bootstrap.scss",
+                "assets/fonts/bootstrap/*",
+                "assets/javascripts/bootstrap.js"
+            ]
+        },
+        "PACE": {
+            "main": []
+        }
+    }
+}

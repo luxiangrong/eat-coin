@@ -1,0 +1,29 @@
+html {
+    font-size: 9px
+}
+
+@media screen and (min-width:321px) and (max-width:375px) {
+    html {
+        font-size: 10px
+    }
+}
+
+@media screen and (min-width:376px) and (max-width:414px) {
+    html {
+        font-size: 12px
+    }
+}
+
+@media screen and (min-width:415px) and (max-width:639px) {
+    html {
+        font-size: 15px
+    }
+}
+
+* {
+  @include box-sizing(border-box);
+}
+*:before,
+*:after {
+  @include box-sizing(border-box);
+}
