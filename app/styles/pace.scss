@@ -25,6 +25,7 @@
     left: 0;
     right: 0;
     background-color: #c7ab70;
+    z-index: 9999;
     &.pace-inactive {
         display: none;
     }
@@ -48,7 +49,7 @@
             content: attr(data-progress-text);
             font-family: "Helvetica Neue", sans-serif;
             font-weight: 100;
-            font-size: 1.7rem;
+            font-size: 18px;
             color: #fff;
         }
         .pace-progress-inner {

@@ -1,16 +1,40 @@
 @import "variable";
-
 @import "fonts";
-
 //======================bootstrap====================================================
 // Core variables and mixins
 @import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
 @import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
-
 // Reset and dependencies
 @import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
 //======================bootstrap====================================================
-
-
 @import "common";
+html,
+body {
+    position: relative;
+    height: 100%;
+}
 
+body {
+    background-color: #f83e35;
+    font-family: $font-family-sans-serif;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    /* Center slide text vertically */
+    background-color: #f83e35;
+    &.swiper-slide-1 {
+    	background-color: #f83e35;
+    	canvas {
+    	}
+    }
+}
