@@ -1,23 +1,20 @@
 <!doctype html>
 <html lang="">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>eat coin</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
     <!-- build:js scripts/vendor/pace.min.js -->
     <script src="/bower_components/PACE/pace.min.js"></script>
     <!-- endbuild -->
-
     <!-- build:css(.tmp) styles/pace.css -->
     <link rel="stylesheet" href="styles/pace.css" />
     <!-- endbuild -->
-
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/Swiper/dist/css/swiper.css" />
@@ -26,28 +23,60 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide swiper-slide-1">
-                <canvas id="ourCanvas"></canvas>
+                <div class="fireworks-container">
+                </div>
+                <div class="text-center">
+                    <img src="images/p11.png" srcset="images/p11@2x.png 2x" alt="" class="logo">
+                </div>
+                <img src="images/p12.png" srcset="images/p12@2x.png 2x" class="ani text-crazy" swiper-animate-effect="lightLeftSpeedIn" swiper-animate-duration="1s" swiper-animate-delay="0.3s">
+                <img src="images/p17.png" srcset="images/p17@2x.png 2x" class="ani text-eat" swiper-animate-effect="bounceInDown" swiper-animate-duration="0.5s" swiper-animate-delay="1s">
+                <img src="images/p13.png" srcset="images/p13@2x.png 2x" class="ani text-gold-coin" swiper-animate-effect="lightRightSpeedIn" swiper-animate-duration="1s" swiper-animate-delay="1.6s">
+                <img src="images/p14.png" srcset="images/p14@2x.png 2x" class="ani coin-1" swiper-animate-effect="slideInDown" swiper-animate-duration="1s" swiper-animate-delay="0.0s">
+                <img src="images/p15.png" srcset="images/p15@2x.png 2x" class="ani coin-2" swiper-animate-effect="slideInDown" swiper-animate-duration="0.7s" swiper-animate-delay="0.1s">
+                <img src="images/p16.png" srcset="images/p16@2x.png 2x" class="ani coin-3" swiper-animate-effect="slideInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.2s">
+
+                <img src="images/p03.png" srcset="images/p03@2x.png 2x" class="cloud top cloud-1">
+                <img src="images/p04.png" srcset="images/p04@2x.png 2x" class="cloud top cloud-2">
+                <img src="images/p05.png" srcset="images/p05@2x.png 2x" class="cloud top cloud-3">
+                <img src="images/p08.png" srcset="images/p08@2x.png 2x" class="cloud bottom cloud-4">
+                <img src="images/p09.png" srcset="images/p09@2x.png 2x" class="cloud bottom cloud-5">
+                <img src="images/p10.png" srcset="images/p10@2x.png 2x" class="cloud bottom cloud-6">
+
+                <img src="images/p06.png" srcset="images/p06@2x.png 2x" class="hongbao">
+
+                <button class="start"><img src="images/p19.png" srcset="images/p19@2x.png 2x"></button>
             </div>
+            <div class="swiper-slide">Slide 2</div>
         </div>
     </div>
-
+    <script type="text/tpl" id="tpl-fireworks">
+        <i class="fireworks fireworks-1"></i>
+        <i class="fireworks fireworks-2"></i>
+        <i class="fireworks fireworks-3"></i>
+        <i class="fireworks fireworks-4"></i>
+        <i class="fireworks fireworks-5"></i>
+        <i class="fireworks fireworks-6"></i>
+        <i class="fireworks fireworks-7"></i>
+        <i class="fireworks fireworks-8"></i>
+        <i class="fireworks fireworks-9"></i>
+    </script>
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/Swiper/dist/js/swiper.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
     <!-- build:js scripts/main.js -->
     <script src="scripts/are.min.js"></script>
+    <script src="scripts/swiper.animate1.0.2.min.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
+</body>
 
-    
-  </body>
 </html>

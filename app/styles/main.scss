@@ -7,7 +7,9 @@
 // Reset and dependencies
 @import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
 //======================bootstrap====================================================
+@import "animate";
 @import "common";
+@import "keyframes";
 html,
 body {
     position: relative;
@@ -31,10 +33,161 @@ body {
     text-align: center;
     font-size: 18px;
     /* Center slide text vertically */
+    background: url(../images/p07@2x.png) no-repeat center center;
+    background-size: cover;
     background-color: #f83e35;
     &.swiper-slide-1 {
-    	background-color: #f83e35;
-    	canvas {
-    	}
+        background-color: #f83e35;
+        .text-center {
+            text-align: center;
+            line-height: 60px;
+            img.logo {
+                position: relative;
+                z-index: 10;
+                transform: translate3d(0,0,10px);
+            }
+        }
+        .text-crazy {
+            position: absolute;
+            left: 20px;
+            top: 120px;
+        }
+        .text-gold-coin {
+            position: absolute;
+            right: 20px;
+            top: 260px;
+        }
+        .text-eat {
+            position: absolute;
+            left: 50%;
+            margin-left: -160px;
+            top: -30px;
+        }
+        .coin-1 {
+            position: absolute;
+            top: 0px;
+            left: 5%;
+            transform-origin: 40.2% 0%;
+        }
+        .coin-2 {
+            position: absolute;
+            top: 0px;
+            right: 5%;
+            transform-origin: 50% 0%;
+        }
+        .coin-3 {
+            position: absolute;
+            top: 0px;
+            right: 10%;
+            transform-origin: 37.88% 0%;
+        }
+        .hongbao {
+            position: absolute;
+            bottom: 0px;
+            left: 30px;
+        }
+        .start {
+            border: 0px;
+            background-color: transparent;
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            margin-left: -100px;
+        }
+    }
+}
+
+.fireworks {
+    width: 11px;
+    height: 11px;
+    background: url(../images/p02.png) no-repeat 0 0;
+    position: absolute;
+    top: -10px;
+    left: 0px;
+    animation-iteration-count: infinite !important;
+    z-index: 0;
+    &.fireworks-1 {
+        background-position: 0px 0px;
+        left: 1%;
+    }
+    &.fireworks-2 {
+        background-position: -11px 0px;
+        left: 11%;
+    }
+    &.fireworks-3 {
+        background-position: -22px 0px;
+        left: 22%;
+    }
+    &.fireworks-4 {
+        background-position: -33px 0px;
+        left: 33%;
+    }
+    &.fireworks-5 {
+        background-position: -44px 0px;
+        left: 44%;
+    }
+    &.fireworks-6 {
+        background-position: -55px 0px;
+        left: 55%;
+    }
+    &.fireworks-7 {
+        background-position: -66px 0px;
+        left: 66%;
+    }
+    &.fireworks-8 {
+        background-position: -77px 0px;
+        left: 77%;
+    }
+    &.fireworks-9 {
+        background-position: -88px 0px;
+        left: 88%;
+    }
+}
+
+.cloud {
+    position: absolute;
+    &.top {
+        top: 0px;
+    }
+    &.bottom {
+        bottom: 0px;
+    }
+    &.cloud-1 {
+        left: 50%;
+        margin-left: -158px;
+        z-index: 3;
+        animation: wave-top-1 10s linear 0s infinite both;
+        top: -53px;
+    }
+    &.cloud-2 {
+        left: -54px;
+        z-index: 2;
+        animation: wave-top-2 8s linear 0s infinite both;
+        top: -40px;
+    }
+    &.cloud-3 {
+        right: -45px;
+        z-index: 1;
+        top: -40px;
+        animation: wave-top-2 9s linear 0s infinite both;
+    }
+    &.cloud-4 {
+        left: 50%;
+        margin-left: -112px;
+        z-index: 3;
+        bottom: -40px;
+        animation: wave-bottom-1 10s linear 0s infinite both;
+    }
+    &.cloud-5 {
+        left: -80px;
+        z-index: 2;
+        bottom: -30px;
+        animation: wave-bottom-2 8s linear 0s infinite both;
+    }
+    &.cloud-6 {
+        right: -33px;
+        z-index: 1;
+        bottom: -30px;
+        animation: wave-bottom-2 9s linear 0s infinite both;
     }
 }
