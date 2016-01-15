@@ -1,21 +1,22 @@
 {
-    "name": "eat-coin",
-    "private": true,
-    "dependencies": {
-        "jquery": "~2.1.4",
-        "PACE": "pace#~1.0.2",
-        "Swiper": "swiper#~3.3.0"
+  "name": "eat-coin",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "PACE": "pace#~1.0.2",
+    "Swiper": "swiper#~3.3.0",
+    "bootstrap-sass": "~3.3.6"
+  },
+  "overrides": {
+    "bootstrap-sass": {
+      "main": [
+        "assets/stylesheets/_bootstrap.scss",
+        "assets/fonts/bootstrap/*",
+        "assets/javascripts/bootstrap.js"
+      ]
     },
-    "overrides": {
-        "bootstrap-sass": {
-            "main": [
-                "assets/stylesheets/_bootstrap.scss",
-                "assets/fonts/bootstrap/*",
-                "assets/javascripts/bootstrap.js"
-            ]
-        },
-        "PACE": {
-            "main": []
-        }
+    "PACE": {
+      "main": []
     }
+  }
 }
