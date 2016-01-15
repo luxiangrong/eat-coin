@@ -1,9 +1,173 @@
 var paceOptions = {
-
+    //pace的参数定义
 };
 
 Pace.on('done', function() {
     jQuery(function($) {
+
+        //在过场动画结束后添加动画场景动画效果
+        var addAnimation = function() {
+            window.setTimeout(function() {
+                $('.coin-1, .coin-2, .coin-3').addClass('sway');
+            }, 1000)
+            window.setTimeout(function() {
+                $('.text-eat').addClass('sway');
+            }, 3000)
+        }
+
+        //初始化游戏场景
+        var initGame = function() {
+
+            (function(ARE) {
+                var w = $(document).width();
+                var h = $(document).height();
+                $('canvas#game').prop('width', w).prop('height', h);
+                var Stage = ARE.Stage,
+                    Bitmap = ARE.Bitmap,
+                    Loader = ARE.Loader,
+                    To = ARE.To;
+
+                var ld = new Loader(),
+                    cloud1, cloud2, cloud3, cloud4, cloud5, cloud6;
+                var stage = new Stage("#game", localStorage.webgl == "1");
+
+                //载入云层资源
+                ld.loadRes([{
+                    id: "cloud1",
+                    src: "images/p03@2x.png"
+                }, {
+                    id: "cloud2",
+                    src: "images/p04@2x.png"
+                }, {
+                    id: "cloud3",
+                    src: "images/p05@2x.png"
+                }, {
+                    id: "cloud4",
+                    src: "images/p08@2x.png"
+                }, {
+                    id: "cloud5",
+                    src: "images/p09@2x.png"
+                }, {
+                    id: "cloud6",
+                    src: "images/p10@2x.png"
+                }]);
+                ld.complete(function() {
+
+                    var clouds = [];
+                    //定义云层的初始值
+                    cloud1 = new Bitmap(ld.get("cloud1"));
+                    cloud1.originX = 0.5;
+                    cloud1.originY = 0.5;
+                    cloud1.scaleX = 0.5;
+                    cloud1.scaleY = 0.5;
+                    cloud1.x = w / 2;
+                    cloud1.y = 0;
+
+                    cloud2 = new Bitmap(ld.get("cloud2"));
+                    cloud2.originX = 0.5;
+                    cloud2.originY = 0.5;
+                    cloud2.scaleX = 0.5;
+                    cloud2.scaleY = 0.5;
+                    cloud2.x = 0;
+                    cloud2.y = 0;
+
+                    cloud3 = new Bitmap(ld.get("cloud3"));
+                    cloud3.originX = 0.5;
+                    cloud3.originY = 0.5;
+                    cloud3.scaleX = 0.5;
+                    cloud3.scaleY = 0.5;
+                    cloud3.x = w;
+                    cloud3.y = 0;
+
+                    cloud4 = new Bitmap(ld.get("cloud4"));
+                    cloud4.originX = 0.5;
+                    cloud4.originY = 0.5;
+                    cloud4.scaleX = 0.5;
+                    cloud4.scaleY = 0.5;
+                    cloud4.x = w / 2;
+                    cloud4.y = h - 10;
+
+                    cloud5 = new Bitmap(ld.get("cloud5"));
+                    cloud5.originX = 0.5;
+                    cloud5.originY = 0.5;
+                    cloud5.scaleX = 0.5;
+                    cloud5.scaleY = 0.5;
+                    cloud5.x = 50;
+                    cloud5.y = h - 10;
+
+                    cloud6 = new Bitmap(ld.get("cloud6"));
+                    cloud6.originX = 0.5;
+                    cloud6.originY = 0.5;
+                    cloud6.scaleX = 0.5;
+                    cloud6.scaleY = 0.5;
+                    cloud6.x = w - 50;
+                    cloud6.y = h - 10;
+
+                    clouds = [
+                        cloud1, cloud2, cloud3, cloud4, cloud5, cloud6
+                    ];
+
+                    stage.add(cloud2);
+                    stage.add(cloud3);
+                    stage.add(cloud1);
+                    stage.add(cloud5);
+                    stage.add(cloud6);
+                    stage.add(cloud4);
+
+                    var step = 0.01;
+                    //定义云层的运动速度和范围
+                    var steps = [{
+                        x: 0.1,
+                        y: 0.0,
+                        xRange: [w / 2 - w / 20, w / 2 + w / 20],
+                        yRange: [-5, 5]
+                    }, {
+                        x: 0.15,
+                        y: 0.0,
+                        xRange: [-20, 20],
+                        yRange: [-5, 5]
+                    }, {
+                        x: -0.12,
+                        y: 0.0,
+                        xRange: [w - 20, w + 20],
+                        yRange: [-5, 5]
+                    }, {
+                        x: 0.1,
+                        y: 0.0,
+                        xRange: [w / 2 - w / 20, w / 2 + w / 20],
+                        yRange: [-5, 5]
+                    }, {
+                        x: -0.12,
+                        y: 0.0,
+                        xRange: [30, 70],
+                        yRange: [-5, 5]
+                    }, {
+                        x: 0.15,
+                        y: 0.0,
+                        xRange: [w - 70, w - 30],
+                        yRange: [-5, 5]
+                    }];
+                    //在舞台的循环事件中定义运动逻辑
+                    stage.onTick(function() {
+                        
+                        //云层的运动逻辑
+                        for (var i = 0; i < clouds.length; i++) {
+                            console.log(clouds.length);
+                            if (clouds[i].x <= steps[i].xRange[0] || clouds[i].x >= steps[i].xRange[1]) {
+                                steps[i].x *= -1;
+                            }
+                            clouds[i].x += steps[i].x;
+                        }
+
+                    })
+                });
+
+
+            })(ARE);
+
+
+        }
+
         var swiper = new Swiper('.swiper-container', {
             direction: 'vertical',
             effect: 'fade',
@@ -15,43 +179,52 @@ Pace.on('done', function() {
                 $('.coin-1, .coin-2, .coin-3, .text-eat').removeClass('sway');
                 switch (activeIndex) {
                     case 0:
-                        {
-                            window.setTimeout(function() {
-                                $('.coin-1, .coin-2, .coin-3').addClass('sway');
-                            }, 1000)
-                            window.setTimeout(function() {
-                                $('.text-eat').addClass('sway');
-                            }, 1500)
-                        }
+                        addAnimation();
+                        break;
+                    case 1:
+                        initGame();
+                        break;
                 }
             },
             onInit: function(swiper) {
                 swiperAnimateCache(swiper); //隐藏动画元素 
                 swiperAnimate(swiper); //初始化完成开始动画
-                window.setTimeout(function() {
-                    $('.coin-1, .coin-2, .coin-3').addClass('sway');
-                }, 1000)
-                window.setTimeout(function() {
-                    $('.text-eat').addClass('sway');
-                }, 1500)
+                addAnimation();
                 var activeIndex = swiper.activeIndex;
                 switch (activeIndex) {
                     case 0:
                         {
                             var fireworksArray = $('#tpl-fireworks').html();
                             $('.fireworks-container').empty();
-                            for (var i = 0; i < 15; i++) {
+                            for (var i = 0; i < 8; i++) {
                                 $('.fireworks-container').append(fireworksArray);
                             }
                             $('.fireworks-container .fireworks').each(function(index, item) {
-                                $(item).css('animation', 'falling-' + (index % 2 + 1) + ' ' + (Math.random() * 5 + 5) + 's linear ' + (Math.random() * 10) + 's');
+                                $(item).css('animation', 'falling-' + (index % 2 + 1) + ' ' + (Math.random() * 5 + 5) + 's linear both ' + (Math.random() * 10) + 's');
                             });
                         }
                 }
             }
         });
 
+        //显示游戏规则
+        $(document).on('click', '#showRule', function(e) {
+            e.preventDefault();
+            $('.envelope').removeClass('slideOutUp').addClass('slideInDown').show();
+            $('.swiper-slide-1').append('<div class="modal-backdrop fade"></div>');
+        });
 
+        //隐藏游戏规则，显示游戏启动画面
+        $(document).on('click', '#hideEnvelope', function(e) {
+            e.preventDefault();
+            $('.envelope').removeClass('slideInDown').addClass('slideOutUp');
+            window.setTimeout(function() {
+                $('.envelope').hide();
+                $('.modal-backdrop').remove();
+            }, 500);
+        });
+
+        //进入游戏界面
         $('.start').on('click', function() {
             swiper.slideNext();
         });
@@ -60,38 +233,3 @@ Pace.on('done', function() {
 });
 
 
-
-
-// (function(ARE) {
-//  var w = $('body').width();
-//  var h = $('body').height();
-//  $('#ourCanvas').prop('width', w).prop('height', h);
-
-//     var Stage = ARE.Stage, Bitmap = ARE.Bitmap, ParticleSystem = ARE.ParticleSystem, Vector2 = ARE.Vector2, FPS = ARE.FPS;
-
-//             var pgBmp, stage = new Stage("#ourCanvas", true);
-//             stage.debug = true;
-
-//             var ps = new ParticleSystem({
-//                 emitX: w/2,
-//                 emitY: 0,
-//                 speed: 10,
-//                 angle: 90,
-//                 angleRange: 10,
-//                 emitArea: [w, 0],
-//                 gravity: new Vector2(0, 1),
-//                 texture: "data:image/png;base64\,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJkSURBVHjaxJeJbusgEEW94S1L//83X18M2MSuLd2pbqc4wZGqRLrKBsyZhQHny7Jk73xVL8xpVhWrcmiB5lX+6GJ5YgQ2owbAm8oIwH1VgKZUmGcRqKGGPgtEQQAzGR8hQ59fAmhJHSAagigJ4E7GPWRXOYC6owAd1JM6wDQPADyMWUqZRMqmAojHp1Vn6EQQEgUNMJLnUjMyJsM49wygBkAPw9dVFwXRkncCIIW3GRgoTQUZn6HxCMAFEFd8TwEQ78X4rHbILoAUmeT+RFG4UhQ6MiIAE4W/UsYFjuVjAIa2nIY4q1R0GFtQWG3E84lqw2GO2QOoCKBVu0BAPgDSU0eUDjjQenNkV/AW/pWChhpMTelo1a64AOKM30vk18GzTHXCNtI/Knz3DFBgsUqBGIjTInXRY1yA9xkVoqW5tVq3pDR9A0hfF5BSARmVnh7RMDCaIdcNgbPBkgzn1Bu+SfIEFSpSBmkxyrMicb0fAEuCZrWnN89veA/4XcakrPcjBWzkTuLjlbfTQPOlBhz+HwkqqPXmPQDdrQItxE1moGof1S74j/8txk8EHhTQrAE8qlwfqS5yukm1x/rAJ9Jiaa6nyATqD78aUVBhFo8b1V4DdTXdCW+IxA1zB4JhiOhZMEWO1HqnvdoHZ4FAMIhV9REF8FiUm0jsYPEJx/Fm/N8OhH90HI9YRHesWbXXZwAShU8qThe7H8YAuJmw5yOd989uRINKRTJAhoF8jbqrHKfeCYdIISZfSq26bk/K+yO3YvfKrVgiwQBHnwt8ynPB25+M8hceTt/ybPhnryJ78+tLgAEAuCFyiQgQB30AAAAASUVORK5CYII=",
-//                 filter: [0.8, 0.2, 0.8, 1],
-//                 emitCount: 1,
-//                 maxCount: 10,
-//                 hideSpeed: 0.005,
-//             });
-
-//             stage.add(ps);
-
-//             stage.on("mousemove", function (evt) {
-//                 // ps.emitX = evt.stageX;
-//                 // ps.emitY = evt.stageY;
-//             })
-
-// })(ARE);

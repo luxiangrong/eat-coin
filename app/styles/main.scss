@@ -6,6 +6,7 @@
 @import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
 // Reset and dependencies
 @import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+@import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap/buttons";
 //======================bootstrap====================================================
 @import "animate";
 @import "common";
@@ -23,6 +24,19 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000;
+    transform: translate3d(0, 0, 10000px);
+    @include opacity(0.5);
+}
+
 
 .swiper-container {
     width: 100%;
@@ -44,7 +58,7 @@ body {
             img.logo {
                 position: relative;
                 z-index: 10;
-                transform: translate3d(0,0,10px);
+                transform: translate3d(0, 0, 10px);
             }
         }
         .text-crazy {
@@ -55,7 +69,7 @@ body {
         .text-gold-coin {
             position: absolute;
             right: 20px;
-            top: 260px;
+            top: 290px;
         }
         .text-eat {
             position: absolute;
@@ -81,19 +95,94 @@ body {
             right: 10%;
             transform-origin: 37.88% 0%;
         }
+        .coin-4 {
+            position: absolute;
+            top: 340px;
+            left: 15%;
+        }
+        .coin-5 {
+            position: absolute;
+            top: 263px;
+            right: 20%;
+        }
+        .coin-6 {
+            position: absolute;
+            top: 256px;
+            right: 24%;
+        }
+        .coin-7 {
+            position: absolute;
+            top: 250px;
+            right: 30%;
+        }
         .hongbao {
             position: absolute;
             bottom: 0px;
             left: 30px;
         }
-        .start {
-            border: 0px;
-            background-color: transparent;
+        .button-group {
             position: absolute;
-            bottom: 20%;
-            left: 50%;
-            margin-left: -100px;
+            bottom: 10%;
+            text-align: center;
+            width: 100%;
+            .start {
+                display: inline-block;
+                border: none;
+                padding: 0;
+                background-color: transparent;
+            }
+            .rule {
+                text-decoration: none;
+                color: #fff;
+                font-size: 1.5rem;
+            }
         }
+        .envelope {
+            position: fixed;
+            top: 20%;
+            left: 10%;
+            width: 80%;
+            height: 70%;
+            z-index: 1050;
+            transform: translate3d(0, 0, 100000px);
+            display: none;
+            .envelope-head {
+                position: absolute;
+                top: -75px;
+                left: 0px;
+                width: 100%;
+                height: 75px;
+                background: url(../images/p23@2x.png) no-repeat center bottom;
+                background-size: 100%;
+            }
+            .envelope-body {
+                width: 100%;
+                height: 100%;
+                background: #ff665e url(../images/p25@2x.png) no-repeat 99% 95%;
+                background-size: 65px 42px;
+                border-radius: 0px 0px 15px 15px;
+                font-size: 1.2rem;
+                color: #fff;
+                padding: 20px;
+                text-align: left;
+                .btn-a {
+                    width: 200px;
+                    padding: 0;
+                    margin: 0 auto;
+                    display: block;
+                }
+            }
+            &.slideInDown {
+                animation: bounceInDownZ10000 0.5s;
+            }
+            &.slideOutUp {
+                animation: bounceOutUpZ10000 0.5s;
+            }
+        }
+    }
+    &.swiper-slide-2 {
+        background: url(../images/j01.jpg) no-repeat center center;
+        background-size: 100%;
     }
 }
 

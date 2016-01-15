@@ -34,9 +34,16 @@
                 <div class="text-center">
                     <img src="images/p11.png" srcset="images/p11@2x.png 2x" alt="" class="logo">
                 </div>
+
+                
+                
+                <img src="images/p22.png" srcset="images/p22@2x.png 2x" class="ani coin-5" swiper-animate-effect="bounceInRightZ-20" swiper-animate-duration="2s" swiper-animate-delay="0.3s">
+                <img src="images/p21.png" srcset="images/p21@2x.png 2x" class="ani coin-6" swiper-animate-effect="bounceInRightZ-20" swiper-animate-duration="2s" swiper-animate-delay="0.2s">
+                <img src="images/p20.png" srcset="images/p20@2x.png 2x" class="ani coin-7" swiper-animate-effect="bounceInRightZ-20" swiper-animate-duration="2s" swiper-animate-delay="0.1s">
+
                 <img src="images/p12.png" srcset="images/p12@2x.png 2x" class="ani text-crazy" swiper-animate-effect="lightLeftSpeedIn" swiper-animate-duration="1s" swiper-animate-delay="0.3s">
-                <img src="images/p17.png" srcset="images/p17@2x.png 2x" class="ani text-eat" swiper-animate-effect="bounceInDown" swiper-animate-duration="0.5s" swiper-animate-delay="1s">
-                <img src="images/p13.png" srcset="images/p13@2x.png 2x" class="ani text-gold-coin" swiper-animate-effect="lightRightSpeedIn" swiper-animate-duration="1s" swiper-animate-delay="1.6s">
+                <img src="images/p17.png" srcset="images/p17@2x.png 2x" class="ani text-eat" swiper-animate-effect="bounceInDown" swiper-animate-duration="1.8s" swiper-animate-delay="1s">
+                <img src="images/p13.png" srcset="images/p13@2x.png 2x" class="ani text-gold-coin" swiper-animate-effect="lightRightSpeedIn" swiper-animate-duration="1s" swiper-animate-delay="2.6s">
                 <img src="images/p14.png" srcset="images/p14@2x.png 2x" class="ani coin-1" swiper-animate-effect="slideInDown" swiper-animate-duration="1s" swiper-animate-delay="0.0s">
                 <img src="images/p15.png" srcset="images/p15@2x.png 2x" class="ani coin-2" swiper-animate-effect="slideInDown" swiper-animate-duration="0.7s" swiper-animate-delay="0.1s">
                 <img src="images/p16.png" srcset="images/p16@2x.png 2x" class="ani coin-3" swiper-animate-effect="slideInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.2s">
@@ -50,11 +57,34 @@
 
                 <img src="images/p06.png" srcset="images/p06@2x.png 2x" class="hongbao">
 
-                <button class="start"><img src="images/p19.png" srcset="images/p19@2x.png 2x"></button>
+                <img src="images/p18.png" srcset="images/p18@2x.png 2x" class="ani coin-4" swiper-animate-effect="bounceInLeftZ20" swiper-animate-duration="2s" swiper-animate-delay="0.2s">
+
+                <div class="button-group ani" swiper-animate-effect="zoomInUp" swiper-animate-duration="1s" swiper-animate-delay="0.1s">
+                    <a class="start"><img src="images/p19.png" srcset="images/p19@2x.png 2x"></a>
+                    <br/>
+                    <a href="#" class="btn btn-link rule" id="showRule">游戏规则&gt;&gt;</a>
+                </div>
+
+                <div class="envelope">
+                    <div class="envelope-head">
+                        
+                    </div>
+                    <div class="envelope-body">
+                        <p>1、视线落在屏幕的中上方，为了预防不测。在有限的时间内，点击金银铜币，点错位置游戏结束。</p>
+                        <p>2、一枚金币50分，一枚银币30分，一枚铜币20分</p>
+                        <p>3、街机模式一旦开启，玩家必须注意金银铜币下滑的速度。初始是不快的，但是一旦玩家可以不断点击，就会逐渐加速下滑的速度。</p>
+                        <p>4、这是一个拼人品以及手速的小游戏。</p>
+                        <p>5、快来加入游戏，看看您能最后获得多少金币呢~</p>
+                        <a href="#" id="hideEnvelope" class="btn-a"><img src="images/p24.png" srcset="images/p24@2x.png 2x"></a>
+                    </div>
+                </div>
             </div>
-            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide swiper-slide-2">
+                <canvas id="game"></canvas>
+            </div>
         </div>
     </div>
+    
     <script type="text/tpl" id="tpl-fireworks">
         <i class="fireworks fireworks-1"></i>
         <i class="fireworks fireworks-2"></i>
