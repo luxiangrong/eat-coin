@@ -25,11 +25,38 @@ Pace.on('done', function() {
                 var Stage = ARE.Stage,
                     Bitmap = ARE.Bitmap,
                     Loader = ARE.Loader,
+                    RectShape = ARE.RectShape,
+                    Tween = ARE.TWEEN.Tween,
                     To = ARE.To;
 
                 var ld = new Loader(),
                     cloud1, cloud2, cloud3, cloud4, cloud5, cloud6;
                 var stage = new Stage("#game", localStorage.webgl == "1");
+
+                //初始化彩色纸片
+                var colorPaperArr = [];
+                for(var i = 1; i < 10; i ++) {
+                    var colorPaper = new RectShape(16,16,'white',false);
+                    colorPaper.x = w / 10 * i;
+                    colorPaper.y = h / 10 * i;
+                    colorPaper.scaleX = colorPaper.scaleY = _.random(5, 10) / 10;
+                    colorPaper.setFilter(_.random(0, 10)/10, _.random(0, 10)/10, _.random(0, 10)/10, _.random(5, 8)/10);
+                    colorPaperArr.push(colorPaper);
+                }
+
+                var colorPaperTween = To.get(colorPaperArr[0])
+                   .cycle(0,10) 
+                   .to()
+                   .set("y", 240, 2000, To.elasticInOut)
+                   .rotation(240, 2000, To.elasticInOut)
+                   .end(function () {
+                       //console.log(" task one has completed!")
+                   })
+                   .to()
+                   .set("y", 0, 2000, To.elasticInOut) 
+                   .to()
+                   .start();
+                   
 
                 //载入云层资源
                 ld.loadRes([{
@@ -114,6 +141,10 @@ Pace.on('done', function() {
                     stage.add(cloud6);
                     stage.add(cloud4);
 
+                    _.each(colorPaperArr, function(paper){
+                        stage.add(paper);
+                    });
+
                     var step = 0.01;
                     //定义云层的运动速度和范围
                     var steps = [{
@@ -152,7 +183,6 @@ Pace.on('done', function() {
                         
                         //云层的运动逻辑
                         for (var i = 0; i < clouds.length; i++) {
-                            console.log(clouds.length);
                             if (clouds[i].x <= steps[i].xRange[0] || clouds[i].x >= steps[i].xRange[1]) {
                                 steps[i].x *= -1;
                             }
