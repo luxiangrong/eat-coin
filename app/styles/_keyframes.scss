@@ -127,3 +127,12 @@
 	animation: sway 20s linear 0s infinite both;
 	animation-duration: 5s !important;
 }
+
+@keyframes rotate360 {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(360deg);
+	}
+}

@@ -17,6 +17,11 @@ body {
     height: 100%;
 }
 
+canvas {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    user-select: none;
+}
+
 body {
     background-color: #f83e35;
     font-family: $font-family-sans-serif;
@@ -37,10 +42,22 @@ body {
     @include opacity(0.5);
 }
 
-
 .swiper-container {
     width: 100%;
     height: 100%;
+    .swiper-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        transition-property: transform;
+    }
+    .swiper-slide {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
 }
 
 .swiper-slide {
@@ -183,6 +200,20 @@ body {
     &.swiper-slide-2 {
         background: url(../images/j01.jpg) no-repeat center center;
         background-size: 100%;
+        .modal-backdrop {
+            background: none;
+            &:after {
+                content: '';
+                position: absolute;
+                width: 720px;
+                height: 793px;
+                left: 50%;
+                margin-left: -360px;
+                top: -200px;
+                background: url(../images/p42.png) no-repeat center center;
+                animation: rotate360 10s linear infinite;
+            }
+        }
     }
 }
 
@@ -245,38 +276,113 @@ body {
         left: 50%;
         margin-left: -158px;
         z-index: 3;
-        animation: wave-top-1 10s linear 0s infinite both;
+        // animation: wave-top-1 10s linear 0s infinite both;
         top: -53px;
     }
     &.cloud-2 {
         left: -54px;
         z-index: 2;
-        animation: wave-top-2 8s linear 0s infinite both;
+        // animation: wave-top-2 8s linear 0s infinite both;
         top: -40px;
     }
     &.cloud-3 {
         right: -45px;
         z-index: 1;
         top: -40px;
-        animation: wave-top-2 9s linear 0s infinite both;
+        // animation: wave-top-2 9s linear 0s infinite both;
     }
     &.cloud-4 {
         left: 50%;
         margin-left: -112px;
         z-index: 3;
         bottom: -40px;
-        animation: wave-bottom-1 10s linear 0s infinite both;
+        // animation: wave-bottom-1 10s linear 0s infinite both;
     }
     &.cloud-5 {
         left: -80px;
         z-index: 2;
         bottom: -30px;
-        animation: wave-bottom-2 8s linear 0s infinite both;
+        // animation: wave-bottom-2 8s linear 0s infinite both;
     }
     &.cloud-6 {
         right: -33px;
         z-index: 1;
         bottom: -30px;
-        animation: wave-bottom-2 9s linear 0s infinite both;
+        // animation: wave-bottom-2 9s linear 0s infinite both;
+    }
+}
+
+.result {
+    position: fixed;
+    top: 15%;
+    left: 10%;
+    width: 80%;
+    height: 70%;
+    z-index: 1050;
+    transform: translate3d(0, 0, 100000px);
+    display: none;
+    .result-head {
+        position: absolute;
+        top: -45px;
+        left: 0px;
+        width: 100%;
+        height: 75px;
+        background: url(../images/p35@2x.png) no-repeat center bottom;
+        background-size: 90%;
+    }
+    .result-body {
+        width: 100%;
+        height: 100%;
+        background: #fcecb4 no-repeat 99% 95%;
+        background-size: 65px 42px;
+        border-radius: 0px 0px 15px 15px;
+        font-size: 1.2rem;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        .btn-a {
+            width: 200px;
+            padding: 0;
+            margin: 0 auto;
+            display: block;
+        }
+    }
+    .star {
+        display: inline-block;
+        &.light {
+            background: url(../images/p39@2x.png) no-repeat center center;
+            background-size: 100%;
+        }
+        &.dark {
+            background: url(../images/p38@2x.png) no-repeat center center;
+            background-size: 100%;
+        }
+        &.large {
+            width: 35px;
+            height: 33px;
+        }
+        &.small {
+            width: 29px;
+            height: 27px;
+        }
+    }
+    .score {
+        display: inline-block;
+        background: url(../images/p37@2x.png) no-repeat center center;
+        background-size: 100%;
+        line-height: 49px;
+        width: 184px;
+        font-size: 1.8rem;
+    }
+    .text {
+        color: #333;
+        font-size: 1.6rem;
+        line-height: 1.5;
+    }
+    &.slideInDown {
+        animation: bounceInDownZ10000 0.5s;
+    }
+    &.slideOutUp {
+        animation: bounceOutUpZ10000 0.5s;
     }
 }

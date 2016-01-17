@@ -16,6 +16,10 @@
         "assets/javascripts/bootstrap.js"
       ]
     },
+    "Swiper": {
+      "main": [
+      ]
+    },
     "PACE": {
       "main": []
     }

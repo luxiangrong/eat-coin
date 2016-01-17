@@ -1,10 +1,31 @@
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+});
+(function() {
+    var agent = navigator.userAgent.toLowerCase(); //检测是否是ios
+    var iLastTouch = null; //缓存上一次tap的时间
+    if (agent.indexOf('iphone') >= 0 || agent.indexOf('ipad') >= 0) {
+        document.body.addEventListener('touchend', function(event) {
+            var iNow = new Date()
+                .getTime();
+            iLastTouch = iLastTouch || iNow + 1 /** 第一次时将iLastTouch设为当前时间+1 */ ;
+            var delta = iNow - iLastTouch;
+            if (delta < 500 && delta > 0) {
+                event.preventDefault();
+                return false;
+            }
+            iLastTouch = iNow;
+        }, false);
+    }
+
+})();
+
 var paceOptions = {
     //pace的参数定义
 };
 
 Pace.on('done', function() {
     jQuery(function($) {
-
         //在过场动画结束后添加动画场景动画效果
         var addAnimation = function() {
             window.setTimeout(function() {
@@ -13,6 +34,16 @@ Pace.on('done', function() {
             window.setTimeout(function() {
                 $('.text-eat').addClass('sway');
             }, 3000)
+        }
+
+        swiperAnimateCache();
+        swiperAnimate($('.swiper-slide-1').get(0));
+        addAnimation();
+
+        var showResult = function(score) {
+            console.log('游戏结束，你获得了' + score + '分');
+            $('.result').removeClass('slideOutUp').addClass('slideInDown').show();
+            $('.swiper-slide-2').append('<div class="modal-backdrop fade"></div>');
         }
 
         //初始化游戏场景
@@ -31,6 +62,8 @@ Pace.on('done', function() {
                     Loader = ARE.Loader,
                     RectShape = ARE.RectShape,
                     Tween = ARE.TWEEN.Tween,
+                    Text = ARE.Text,
+                    Container = ARE.Container,
                     To = ARE.To;
 
                 var ld = new Loader(),
@@ -115,12 +148,17 @@ Pace.on('done', function() {
 
                 /**-------------------- 金币下落 start -------------------**/
                 var startPerSecond = 1; // 开始时每秒掉落金币数
-                var endPerSecond = 3; //结束时每秒掉落金币数
-                var totalSeconde = 20000; //游戏总时间(毫秒)
+                var endPerSecond = 4; //结束时每秒掉落金币数
+                var totalSeconde = 20 * 1000; //游戏总时间(毫秒)
                 var loadCoin = new Loader();
+                var coinContainer = new Container();
+                var textScore;
+                var textCD;
+                var scoreGold = 50, scoreSilver = 30, scoreCopper = 10;
+                stage.add(coinContainer);
                 var intervalTime = function(a, b, c, t) {
                     var r = (1000 * (a - b) / (c * b * a) * t + 1000 / a);
-                    if( r < 1000 / b) {
+                    if (r < 1000 / b) {
                         return 1000 / b;
                     }
                     return r;
@@ -138,40 +176,94 @@ Pace.on('done', function() {
                 loadCoin.complete(function() {
                     var startTime = new Date().valueOf();
                     var lastTime = new Date().valueOf();
-                    var xArray = [ w / 5, w / 2, w / 5 * 4];
+                    var xArray = [w / 5, w / 2, w / 5 * 4];
                     var coinContainer = new ARE.Container();
                     stage.add(coinContainer);
+
+
+                    // var coin = new Bitmap(loadCoin.get('gold'));
+                    // coin.originX = coin.orginY = 0.5
+                    // coin.scaleX = coin.scaleY = 0.5;
+                    // coin.x = w/2;
+                    // coin.y = 120;
+                    // stage.add(coin);
+
+
+
+                    var currentScore = 0;
                     stage.onTick(function() {
-                        if (!gameStart) return;
+                        if (!gameStart) {
+                            startTime = new Date().valueOf();
+                            lastTime = new Date().valueOf();
+                            return
+                        };
                         var nowTime = new Date().valueOf();
-                        if(nowTime - lastTime >  intervalTime(startPerSecond, endPerSecond, totalSeconde, nowTime - startTime)) {    
-                             var r = _.random(0,2);
+                        var remainSecond = (Math.abs(totalSeconde - (nowTime - startTime)) / 1000).toFixed(1); 
+                        if(remainSecond <= 0) {
+                            gameStart = false;
+                            showResult(currentScore);
+                        }
+                        textCD.value = remainSecond + '秒';
+                        if (nowTime - lastTime > intervalTime(startPerSecond, endPerSecond, totalSeconde, nowTime - startTime)) {
+                            var r = _.random(0, 2);
                             var coin;
-                            switch(r) {
+                            switch (r) {
                                 case 0:
                                     coin = new Bitmap(loadCoin.get('gold'));
+                                    coin.score = scoreGold;
                                     break;
                                 case 1:
                                     coin = new Bitmap(loadCoin.get('silver'));
+                                    coin.score = scoreSilver;
                                     break;
                                 case 2:
                                     coin = new Bitmap(loadCoin.get('copper'));
+                                    coin.score = scoreCopper;
                                     break;
                             }
                             coin.originX = coin.orginY = 0.5
                             coin.scaleX = coin.scaleY = 0.5;
-                            coin.x = xArray[_.random(0,2)];
+                            coin.x = xArray[_.random(0, 2)];
+                            coin.onTouchStart(function() {
+                                // to.pause();
+                                currentScore += coin.score;
+                                textScore.value = currentScore + '分';
+                                To.get(coin)
+                                    .to()
+                                    .scaleX(0.7, 300)
+                                    .scaleY(0.7, 300)
+                                    .alpha(0, 300)
+                                    .end(function() {
+                                        coinContainer.remove(coin);
+                                        // to = null;  
+                                    })
+                                    .start();
+                            });
                             To.get(coin)
                                 .to()
                                 .y(h, intervalTime(0.333, 0.75, totalSeconde, nowTime - startTime))
-                                .end(function(){
+                                .end(function() {
                                     coinContainer.remove(coin);
                                 })
                                 .start();
                             coinContainer.add(coin);
                             lastTime = nowTime;
                         }
-                    })
+
+                        // _.each(coinContainer.children, function(item, n){
+                        //     if(item) {
+                        //         item.y += 1;
+                        //         if(item.y > h) {
+                        //             coinContainer.remove(item);
+                        //         }
+                        //     }
+                        // });
+
+
+                    });
+                    // window.setTimeout(function(){
+                    //     console.log(coinContainer.children);
+                    // }, 5000);
                 });
                 /**-------------------- 金币下落 end -------------------**/
 
@@ -182,7 +274,7 @@ Pace.on('done', function() {
                     var colorPaper = new RectShape(16, 16, 'white', false);
                     colorPaper.x = w / 10 * i;
                     colorPaper.y = 0;
-                    colorPaper.scaleX = colorPaper.scaleY = _.random(5, 10) / 10;
+                    colorPaper.scaleX = colorPaper.scaleY = _.random(5, 8) / 10;
                     colorPaper.setFilter(_.random(0, 10) / 10, _.random(0, 10) / 10, _.random(0, 10) / 10, _.random(5, 8) / 10);
                     colorPaperArr.push(colorPaper);
                 }
@@ -209,10 +301,16 @@ Pace.on('done', function() {
                 });
                 /**-------------------- 初始化彩色纸片 end -------------------**/
 
+                // 载入云层等其他位图资源资源
+                var bitmapLoader = new Loader();
 
-
-                //载入云层资源
-                ld.loadRes([{
+                bitmapLoader.loadRes([{
+                    id: "score",
+                    src: "images/p33.png"
+                }, {
+                    id: "cd",
+                    src: "images/p34.png"
+                },{
                     id: "cloud1",
                     src: "images/p03@2x.png"
                 }, {
@@ -231,35 +329,41 @@ Pace.on('done', function() {
                     id: "cloud6",
                     src: "images/p10@2x.png"
                 }]);
-                ld.complete(function() {
+
+                var topContainer = new Container();
+                bitmapLoader.complete(function() {
 
                     var clouds = [];
                     //定义云层的初始值
-                    cloud1 = new Bitmap(ld.get("cloud1"));
+
+                    cloud1 = new Bitmap(bitmapLoader.get("cloud1"));
                     cloud1.originX = 0.5;
                     cloud1.originY = 0.5;
                     cloud1.scaleX = 0.5;
                     cloud1.scaleY = 0.5;
                     cloud1.x = w / 2;
-                    cloud1.y = 0;
+                    cloud1.y = 10;
 
-                    cloud2 = new Bitmap(ld.get("cloud2"));
+
+                    cloud2 = new Bitmap(bitmapLoader.get("cloud2"));
                     cloud2.originX = 0.5;
                     cloud2.originY = 0.5;
                     cloud2.scaleX = 0.5;
                     cloud2.scaleY = 0.5;
                     cloud2.x = 0;
-                    cloud2.y = 0;
+                    cloud2.y = 10;
 
-                    cloud3 = new Bitmap(ld.get("cloud3"));
+
+                    cloud3 = new Bitmap(bitmapLoader.get("cloud3"));
                     cloud3.originX = 0.5;
                     cloud3.originY = 0.5;
                     cloud3.scaleX = 0.5;
                     cloud3.scaleY = 0.5;
                     cloud3.x = w;
-                    cloud3.y = 0;
+                    cloud3.y = 10;
 
-                    cloud4 = new Bitmap(ld.get("cloud4"));
+
+                    cloud4 = new Bitmap(bitmapLoader.get("cloud4"));
                     cloud4.originX = 0.5;
                     cloud4.originY = 0.5;
                     cloud4.scaleX = 0.5;
@@ -267,7 +371,8 @@ Pace.on('done', function() {
                     cloud4.x = w / 2;
                     cloud4.y = h - 10;
 
-                    cloud5 = new Bitmap(ld.get("cloud5"));
+
+                    cloud5 = new Bitmap(bitmapLoader.get("cloud5"));
                     cloud5.originX = 0.5;
                     cloud5.originY = 0.5;
                     cloud5.scaleX = 0.5;
@@ -275,7 +380,8 @@ Pace.on('done', function() {
                     cloud5.x = 50;
                     cloud5.y = h - 10;
 
-                    cloud6 = new Bitmap(ld.get("cloud6"));
+
+                    cloud6 = new Bitmap(bitmapLoader.get("cloud6"));
                     cloud6.originX = 0.5;
                     cloud6.originY = 0.5;
                     cloud6.scaleX = 0.5;
@@ -287,60 +393,84 @@ Pace.on('done', function() {
                         cloud1, cloud2, cloud3, cloud4, cloud5, cloud6
                     ];
 
-                    stage.add(cloud2);
-                    stage.add(cloud3);
-                    stage.add(cloud1);
-                    stage.add(cloud5);
-                    stage.add(cloud6);
-                    stage.add(cloud4);
+                    topContainer.add(cloud2);
+                    topContainer.add(cloud3);
+                    topContainer.add(cloud1);
+                    topContainer.add(cloud5);
+                    topContainer.add(cloud6);
+                    topContainer.add(cloud4);
+
+                    var scoreBitmap = new Bitmap(bitmapLoader.get('score'));
+                    scoreBitmap.scaleX = scoreBitmap.scaleY = 0.5;
+                    scoreBitmap.x = 10;
+                    scoreBitmap.y = 5;
+                    topContainer.add(scoreBitmap);
+                    var cdBitmap = new Bitmap(bitmapLoader.get('cd'));
+                    cdBitmap.scaleX = cdBitmap.scaleY = 0.5;
+                    cdBitmap.x = w - 97.5 - 10;
+                    cdBitmap.y = 5;
+                    topContainer.add(cdBitmap);
 
 
+                    textScore = new Text("0分", "12px arial", "#fa372d");
+                    textScore.x = 50;
+                    textScore.y = 12;
+                    topContainer.add(textScore);
 
-                    var step = 0.01;
-                    //定义云层的运动速度和范围
-                    var steps = [{
-                        x: 0.1,
-                        y: 0.0,
-                        xRange: [w / 2 - w / 20, w / 2 + w / 20],
-                        yRange: [-5, 5]
-                    }, {
-                        x: 0.15,
-                        y: 0.0,
-                        xRange: [-20, 20],
-                        yRange: [-5, 5]
-                    }, {
-                        x: -0.12,
-                        y: 0.0,
-                        xRange: [w - 20, w + 20],
-                        yRange: [-5, 5]
-                    }, {
-                        x: 0.1,
-                        y: 0.0,
-                        xRange: [w / 2 - w / 20, w / 2 + w / 20],
-                        yRange: [-5, 5]
-                    }, {
-                        x: -0.12,
-                        y: 0.0,
-                        xRange: [30, 70],
-                        yRange: [-5, 5]
-                    }, {
-                        x: 0.15,
-                        y: 0.0,
-                        xRange: [w - 70, w - 30],
-                        yRange: [-5, 5]
-                    }];
-                    //在舞台的循环事件中定义运动逻辑
-                    stage.onTick(function() {
+                    textCD = new Text((totalSeconde/1000).toFixed(1) + '秒', "12px arial", "#666666");
+                    textCD.originY = 1;
+                    textCD.x = w - 40 - 10;
+                    textCD.y = 12;
+                    topContainer.add(textCD);
 
-                        //云层的运动逻辑
-                        for (var i = 0; i < clouds.length; i++) {
-                            if (clouds[i].x <= steps[i].xRange[0] || clouds[i].x >= steps[i].xRange[1]) {
-                                steps[i].x *= -1;
-                            }
-                            clouds[i].x += steps[i].x;
-                        }
+                    stage.add(topContainer);
 
-                    })
+
+                //     var step = 0.01;
+                //     //定义云层的运动速度和范围
+                //     var steps = [{
+                //         x: 0.1,
+                //         y: 0.0,
+                //         xRange: [w / 2 - w / 20, w / 2 + w / 20],
+                //         yRange: [-5, 5]
+                //     }, {
+                //         x: 0.15,
+                //         y: 0.0,
+                //         xRange: [-20, 20],
+                //         yRange: [-5, 5]
+                //     }, {
+                //         x: -0.12,
+                //         y: 0.0,
+                //         xRange: [w - 20, w + 20],
+                //         yRange: [-5, 5]
+                //     }, {
+                //         x: 0.1,
+                //         y: 0.0,
+                //         xRange: [w / 2 - w / 20, w / 2 + w / 20],
+                //         yRange: [-5, 5]
+                //     }, {
+                //         x: -0.12,
+                //         y: 0.0,
+                //         xRange: [30, 70],
+                //         yRange: [-5, 5]
+                //     }, {
+                //         x: 0.15,
+                //         y: 0.0,
+                //         xRange: [w - 70, w - 30],
+                //         yRange: [-5, 5]
+                //     }];
+                //     //在舞台的循环事件中定义运动逻辑
+                //     stage.onTick(function() {
+
+                //         //云层的运动逻辑
+                //         for (var i = 0; i < clouds.length; i++) {
+                //             if (clouds[i].x <= steps[i].xRange[0] || clouds[i].x >= steps[i].xRange[1]) {
+                //                 steps[i].x *= -1;
+                //             }
+                //             clouds[i].x += steps[i].x;
+                //         }
+
+                //     })
                 });
 
 
@@ -349,44 +479,44 @@ Pace.on('done', function() {
 
         }
 
-        var swiper = new Swiper('.swiper-container', {
-            // direction: 'vertical',
-            // effect: 'fade',
-            preventClicks: false,
-            // onlyExternal: true,
-            onSlideChangeEnd: function(swiper) {
-                swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
-                var activeIndex = swiper.activeIndex;
-                $('.coin-1, .coin-2, .coin-3, .text-eat').removeClass('sway');
-                switch (activeIndex) {
-                    case 0:
-                        addAnimation();
-                        break;
-                    case 1:
-                        $('.swiper-slide-1 *').css('animation', 'none');
-                        initGame();
-                        break;
-                }
-            },
-            onInit: function(swiper) {
-                swiperAnimateCache(swiper); //隐藏动画元素 
-                swiperAnimate(swiper); //初始化完成开始动画
-                addAnimation();
-                var activeIndex = swiper.activeIndex;
-                switch (activeIndex) {
-                    case 0:
-                        var fireworksArray = $('#tpl-fireworks').html();
-                        $('.fireworks-container').empty();
-                        for (var i = 0; i < 8; i++) {
-                            $('.fireworks-container').append(fireworksArray);
-                        }
-                        $('.fireworks-container .fireworks').each(function(index, item) {
-                            $(item).css('animation', 'falling-' + (index % 2 + 1) + ' ' + (Math.random() * 5 + 5) + 's linear both ' + (Math.random() * 10) + 's');
-                        });
-                        break;
-                }
-            }
-        });
+        // var swiper = new Swiper('.swiper-container', {
+        //     // direction: 'vertical',
+        //     effect: 'fade',
+        //     preventClicks: false,
+        //     // onlyExternal: true,
+        //     onSlideChangeEnd: function(swiper) {
+        //         swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
+        //         var activeIndex = swiper.activeIndex;
+        //         $('.coin-1, .coin-2, .coin-3, .text-eat').removeClass('sway');
+        //         switch (activeIndex) {
+        //             case 0:
+        //                 addAnimation();
+        //                 break;
+        //             case 1:
+        //                 $('.swiper-slide-1').hide();
+        //                 initGame();
+        //                 break;
+        //         }
+        //     },
+        //     onInit: function(swiper) {
+        //         swiperAnimateCache(swiper); //隐藏动画元素 
+        //         swiperAnimate(swiper); //初始化完成开始动画
+        //         addAnimation();
+        //         var activeIndex = swiper.activeIndex;
+        //         switch (activeIndex) {
+        //             case 0:
+        //                 var fireworksArray = $('#tpl-fireworks').html();
+        //                 $('.fireworks-container').empty();
+        //                 for (var i = 0; i < 8; i++) {
+        //                     $('.fireworks-container').append(fireworksArray);
+        //                 }
+        //                 $('.fireworks-container .fireworks').each(function(index, item) {
+        //                     $(item).css('animation', 'falling-' + (index % 2 + 1) + ' ' + (Math.random() * 5 + 5) + 's linear both ' + (Math.random() * 10) + 's');
+        //                 });
+        //                 break;
+        //         }
+        //     }
+        // });
 
         //显示游戏规则
         $(document).on('click', '#showRule', function(e) {
@@ -407,7 +537,11 @@ Pace.on('done', function() {
 
         //进入游戏界面
         $('.start').on('click', function() {
-            swiper.slideNext();
+            $('.swiper-slide-1').hide();
+            initGame();
+            // swiper.slideNext();
+
+            // swiper.removeSlide(0);
         });
 
     });

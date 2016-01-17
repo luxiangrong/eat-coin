@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>eat coin</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=false">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -17,7 +17,6 @@
     <!-- endbuild -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="/bower_components/Swiper/dist/css/swiper.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -34,40 +33,30 @@
                 <div class="text-center">
                     <img src="images/p11.png" srcset="images/p11@2x.png 2x" alt="" class="logo">
                 </div>
-
-                
-                
                 <img src="images/p22.png" srcset="images/p22@2x.png 2x" class="ani coin-5" swiper-animate-effect="bounceInRightZ-20" swiper-animate-duration="2s" swiper-animate-delay="0.3s">
                 <img src="images/p21.png" srcset="images/p21@2x.png 2x" class="ani coin-6" swiper-animate-effect="bounceInRightZ-20" swiper-animate-duration="2s" swiper-animate-delay="0.2s">
                 <img src="images/p20.png" srcset="images/p20@2x.png 2x" class="ani coin-7" swiper-animate-effect="bounceInRightZ-20" swiper-animate-duration="2s" swiper-animate-delay="0.1s">
-
                 <img src="images/p12.png" srcset="images/p12@2x.png 2x" class="ani text-crazy" swiper-animate-effect="lightLeftSpeedIn" swiper-animate-duration="1s" swiper-animate-delay="0.3s">
                 <img src="images/p17.png" srcset="images/p17@2x.png 2x" class="ani text-eat" swiper-animate-effect="bounceInDown" swiper-animate-duration="1.8s" swiper-animate-delay="1s">
                 <img src="images/p13.png" srcset="images/p13@2x.png 2x" class="ani text-gold-coin" swiper-animate-effect="lightRightSpeedIn" swiper-animate-duration="1s" swiper-animate-delay="2.6s">
                 <img src="images/p14.png" srcset="images/p14@2x.png 2x" class="ani coin-1" swiper-animate-effect="slideInDown" swiper-animate-duration="1s" swiper-animate-delay="0.0s">
                 <img src="images/p15.png" srcset="images/p15@2x.png 2x" class="ani coin-2" swiper-animate-effect="slideInDown" swiper-animate-duration="0.7s" swiper-animate-delay="0.1s">
                 <img src="images/p16.png" srcset="images/p16@2x.png 2x" class="ani coin-3" swiper-animate-effect="slideInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.2s">
-
                 <img src="images/p03.png" srcset="images/p03@2x.png 2x" class="cloud top cloud-1">
                 <img src="images/p04.png" srcset="images/p04@2x.png 2x" class="cloud top cloud-2">
                 <img src="images/p05.png" srcset="images/p05@2x.png 2x" class="cloud top cloud-3">
                 <img src="images/p08.png" srcset="images/p08@2x.png 2x" class="cloud bottom cloud-4">
                 <img src="images/p09.png" srcset="images/p09@2x.png 2x" class="cloud bottom cloud-5">
                 <img src="images/p10.png" srcset="images/p10@2x.png 2x" class="cloud bottom cloud-6">
-
                 <img src="images/p06.png" srcset="images/p06@2x.png 2x" class="hongbao">
-
                 <img src="images/p18.png" srcset="images/p18@2x.png 2x" class="ani coin-4" swiper-animate-effect="bounceInLeftZ20" swiper-animate-duration="2s" swiper-animate-delay="0.2s">
-
                 <div class="button-group ani" swiper-animate-effect="zoomInUp" swiper-animate-duration="1s" swiper-animate-delay="0.1s">
                     <a class="start"><img src="images/p19.png" srcset="images/p19@2x.png 2x"></a>
                     <br/>
                     <a href="#" class="btn btn-link rule" id="showRule">游戏规则&gt;&gt;</a>
                 </div>
-
                 <div class="envelope">
                     <div class="envelope-head">
-                        
                     </div>
                     <div class="envelope-body">
                         <p>1、视线落在屏幕的中上方，为了预防不测。在有限的时间内，点击金银铜币，点错位置游戏结束。</p>
@@ -81,10 +70,34 @@
             </div>
             <div class="swiper-slide swiper-slide-2">
                 <canvas id="game"></canvas>
+                <div class="result">
+                    <div class="result-head">
+                    </div>
+                    <div class="result-body">
+                        <p>
+                            <img src="images/p36.png" srcset="images/p36@2x.png 2x" alt="">
+                        </p>
+                        <p>
+                            <span class="star small light"></span>
+                            <span class="star large light"></span>
+                            <span class="star small dark"></span>
+                        </p>
+                        <p>
+                            <span class="score">20000分</span>
+                        </p>
+                        <p class="text">历史最高分5000分，再接再厉~<br/> 马上分享到朋友圈<br/> 和好友pk一下吧
+                        </p>
+                        <p>
+                            <a href=""><img src="images/p40.png" srcset="images/p40@2x.png 2x" alt=""></a>
+                        </p>
+                        <p>
+                            <a href=""><img src="images/p41.png" srcset="images/p41@2x.png 2x" alt=""></a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
     <script type="text/tpl" id="tpl-fireworks">
         <i class="fireworks fireworks-1"></i>
         <i class="fireworks fireworks-2"></i>
@@ -99,7 +112,6 @@
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/Swiper/dist/js/swiper.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
     <script src="/bower_components/underscore/underscore.js"></script>
     <!-- endbower -->
