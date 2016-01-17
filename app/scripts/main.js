@@ -69,7 +69,7 @@ Pace.on('done', function() {
                 var ld = new Loader(),
                     cloud1, cloud2, cloud3, cloud4, cloud5, cloud6;
                 var stage = new Stage("#game", localStorage.webgl == "1");
-                stage.debug = true;
+                // stage.debug = true;
 
 
                 /**-------------------- 游戏开始倒计时 start -------------------**/
