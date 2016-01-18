@@ -37,9 +37,23 @@ body {
     bottom: 0;
     left: 0;
     z-index: 1040;
-    background-color: #000;
-    transform: translate3d(0, 0, 10000px);
-    @include opacity(0.5);
+    background-color: rgba(0, 0, 0, 0.5);
+    &.modal-share {
+        background-color: rgba(0, 0, 0, 0.9);
+        text-align: center;
+        z-index: 1060;
+        transform: translate3d(0, 0, 200px);
+        img.guide {
+            max-width: 100%;
+        }
+        img.hack {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 
 .swiper-container {
@@ -200,6 +214,74 @@ body {
     &.swiper-slide-2 {
         background: url(../images/j01.jpg) no-repeat center center;
         background-size: 100%;
+        canvas {
+            position: absolute;
+            background-color: transparent;
+            top: 0;
+            left: 0;
+            &#game {
+                z-index: 1;
+            }
+            &#layer-cloud {
+                z-index: 2;
+            }
+            &#layer-cd {
+                z-index: 3;
+            }
+        }
+        .layer-cloud {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            .cloud-top {
+                pointer-events: none;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: url(../images/p45.png) no-repeat center top;
+                background-size: 100%;
+            }
+            .cloud-bottom {
+                pointer-events: none;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: url(../images/p46.png) no-repeat center bottom;
+                background-size: 100%;
+            }
+            .text-score {
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                width: 100px;
+                line-height: 28px;
+                background: url(../images/p33.png) no-repeat center center;
+                background-size: 100%;
+                padding-left: 30px;
+                text-align: right;
+                color: #fa372d;
+                font-size: 1.5rem;
+                padding-right: 10px;
+            }
+            .text-cd {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                width: 97.5px;
+                line-height: 28px;
+                background: url(../images/p34.png) no-repeat center center;
+                background-size: 100%;
+                padding-left: 30px;
+                text-align: right;
+                color: #666666;
+                font-size: 1.5rem;
+                padding-right: 10px;
+            }
+        }
         .modal-backdrop {
             background: none;
             &:after {
@@ -319,7 +401,7 @@ body {
     width: 80%;
     height: 70%;
     z-index: 1050;
-    transform: translate3d(0, 0, 100000px);
+    transform: translate3d(0, 0, 100px);
     display: none;
     .result-head {
         position: absolute;
@@ -380,9 +462,67 @@ body {
         line-height: 1.5;
     }
     &.slideInDown {
-        animation: bounceInDownZ10000 0.5s;
+        animation: bounceInDown 0.5s;
     }
     &.slideOutUp {
-        animation: bounceOutUpZ10000 0.5s;
+        animation: bounceOutUp 0.5s;
+    }
+}
+
+.copyright {
+    position: fixed;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    z-index: 1060;
+    transform: translate3d(0, 0, 200px);
+    font-size: 1.5rem;
+    display: none;
+    .head {
+        height: 50px;
+        line-height: 50px;
+        
+        position: relative;
+        img {
+            vertical-align: middle;
+            margin-right: 1rem;
+        }
+    }
+    .body {
+        border-top: 1px dashed rgba(255, 255, 255, 0.3);
+        color: #c6c6c6;
+        display: none;
+        padding: 5px 10px;
+    }
+    &.collapse {
+        .toggle {
+            position: absolute;
+            width: 17px;
+            height: 14px;
+            background: url(../images/p51.png) no-repeat center center;
+            background-size: 17px 14px;
+            right: 10px;
+            top: 15px;
+        }
+        .body {
+            display: none;
+        }
+        &.in {
+            .body {
+                display: block;
+            }
+            .toggle {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                background: url(../images/p52.png) no-repeat center center;
+                background-size: 16px 16px;
+                right: 10px;
+                top: 15px;
+            }
+        }
     }
 }

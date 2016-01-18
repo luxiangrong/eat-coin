@@ -136,3 +136,12 @@
 		transform: rotateZ(360deg);
 	}
 }
+
+@keyframes ios-transform-hack-z-20000 {
+	0% {
+		transform: translate3d(0, 0px, 20000px);
+	}
+	100% {
+		transform: translate3d(0, 0px, 20000px);
+	}
+}
