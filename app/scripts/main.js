@@ -36,6 +36,8 @@ Pace.on('done', function() {
             }, 3000)
         }
 
+        var scoreGradeA = 300, scoreGradeB = 500;
+
         swiperAnimateCache();
         swiperAnimate($('.swiper-slide-1').get(0));
         addAnimation();
@@ -44,6 +46,37 @@ Pace.on('done', function() {
             console.log('游戏结束，你获得了' + score + '分');
             $('.result').removeClass('slideOutUp').addClass('slideInDown').show();
             $('.swiper-slide-2').append('<div class="modal-backdrop fade"></div>');
+
+            if(score < scoreGradeA) {
+                $('.result .title').attr('src', 'images/p44.png').attr('srcset', 'images/p44@2x.png 2x');
+                $('.result .score').text(score + '分');
+                $('.result .star').removeClass('light');
+                $('.result .star').addClass('dark');
+            }
+
+            if(score >= scoreGradeA && score < scoreGradeB) {
+                $('.result .title').attr('src', 'images/p36.png').attr('srcset', 'images/p36@2x.png 2x');
+                $('.result .score').text(score + '分');
+                $('.result .star').addClass('dark');
+                $('.result .star').eq(0).removeClass('dark');
+                $('.result .star').eq(0).addClass('light');
+            }
+
+            if(score >= scoreGradeB) {
+                $('.result .title').attr('src', 'images/p43.png').attr('srcset', 'images/p43@2x.png 2x');
+                $('.result .score').text(score + '分');
+                $('.result .star').removeClass('dark');
+                $('.result .star').addClass('light');
+            }
+        }
+
+        var hideResult = function(fn) {
+            $('.result').removeClass('slideInDown').addClass('slideOutUp');
+            window.setTimeout(function() {
+                $('.result').hide();
+                $('.modal-backdrop').remove();
+                fn();
+            }, 500);
         }
 
         //初始化游戏场景
@@ -69,7 +102,7 @@ Pace.on('done', function() {
                 var ld = new Loader(),
                     cloud1, cloud2, cloud3, cloud4, cloud5, cloud6;
                 var stage = new Stage("#game", localStorage.webgl == "1");
-                // stage.debug = true;
+                stage.debug = true;
 
 
                 /**-------------------- 游戏开始倒计时 start -------------------**/
@@ -198,12 +231,14 @@ Pace.on('done', function() {
                             return
                         };
                         var nowTime = new Date().valueOf();
-                        var remainSecond = (Math.abs(totalSeconde - (nowTime - startTime)) / 1000).toFixed(1); 
+                        var remainSecond = ((totalSeconde - (nowTime - startTime)) / 1000).toFixed(1); 
                         if(remainSecond <= 0) {
                             gameStart = false;
-                            showResult(currentScore);
+                            window.setTimeout(function(){
+                                showResult(currentScore);
+                            },intervalTime(0.333, 0.75, totalSeconde, nowTime - startTime));
                         }
-                        textCD.value = remainSecond + '秒';
+                        textCD.value = Math.abs(remainSecond) + '秒';
                         if (nowTime - lastTime > intervalTime(startPerSecond, endPerSecond, totalSeconde, nowTime - startTime)) {
                             var r = _.random(0, 2);
                             var coin;
@@ -542,6 +577,13 @@ Pace.on('done', function() {
             // swiper.slideNext();
 
             // swiper.removeSlide(0);
+        });
+        $('.restart').on('click', function(e) {
+            e.preventDefault();
+            $('.swiper-slide-1').hide();
+            $('#game').remove();
+            $('.swiper-slide-2').append('<canvas id="game"></canvas>');
+            hideResult(initGame);
         });
 
     });
