@@ -56,6 +56,12 @@ body {
     }
 }
 
+.pace {
+    &.pace-pack {
+        z-index: 999;
+    }
+}
+
 .swiper-container {
     width: 100%;
     height: 100%;
@@ -220,14 +226,44 @@ body {
             top: 0;
             left: 0;
             &#game {
-                z-index: 1;
+                z-index: 0;
             }
             &#layer-cloud {
-                z-index: 2;
+                z-index: 20;
             }
             &#layer-cd {
-                z-index: 3;
+                z-index: 30;
             }
+        }
+        .coin-container {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            .coin {
+                position: absolute;
+                top: -75px;
+                margin-left: -37.5px;
+                will-change: transform, opacity;
+                // animation-name: coin-falling;
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+                // transition: transform 1966.67ms linear;
+                width: 75px;
+                height: 75px;
+                img {
+                    transition: transform 1000ms;
+                }
+            }
+        }
+        .layer-hongbao {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url(../images/p54.png) no-repeat center bottom;
+            background-size: 303px;
         }
         .layer-cloud {
             position: absolute;
@@ -484,7 +520,6 @@ body {
     .head {
         height: 50px;
         line-height: 50px;
-        
         position: relative;
         img {
             vertical-align: middle;

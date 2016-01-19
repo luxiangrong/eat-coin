@@ -145,3 +145,12 @@
 		transform: translate3d(0, 0px, 20000px);
 	}
 }
+
+@keyframes coin-falling {
+	0% {
+		transform: translate3d(0, 0, 0);
+	}
+	100% {
+		transform: translate3d(0, 900px, 0);
+	}
+}

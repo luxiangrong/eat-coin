@@ -6,7 +6,8 @@
     "PACE": "pace#~1.0.2",
     "Swiper": "swiper#~3.3.0",
     "bootstrap-sass": "~3.3.6",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "buzz": "~1.1.10"
   },
   "overrides": {
     "bootstrap-sass": {
@@ -17,8 +18,7 @@
       ]
     },
     "Swiper": {
-      "main": [
-      ]
+      "main": []
     },
     "PACE": {
       "main": []

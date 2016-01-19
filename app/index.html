@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>eat coin</title>
+    <title>疯狂吃金币</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=false">
     <link rel="shortcut icon" href="/favicon.ico">
@@ -25,6 +25,7 @@
 </head>
 
 <body>
+    
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide swiper-slide-1">
@@ -59,17 +60,20 @@
                     <div class="envelope-head">
                     </div>
                     <div class="envelope-body">
-                        <p>1、视线落在屏幕的中上方，为了预防不测。在有限的时间内，点击金银铜币，点错位置游戏结束。</p>
+                        <p>1、在有限时间内，点击掉落的金、银、铜币。</p>
                         <p>2、一枚金币50分，一枚银币30分，一枚铜币20分</p>
-                        <p>3、街机模式一旦开启，玩家必须注意金银铜币下滑的速度。初始是不快的，但是一旦玩家可以不断点击，就会逐渐加速下滑的速度。</p>
+                        <p>3、玩家需注意钱币下落的速度，钱币下落速度由慢变快，玩家需不断点击。</p>
                         <p>4、这是一个拼人品以及手速的小游戏。</p>
                         <p>5、快来加入游戏，看看您能最后获得多少金币呢~</p>
-                        <a href="#" id="hideEnvelope" class="btn-a"><img src="images/p24.png" srcset="images/p24@2x.png 2x"></a>
+                        <a href="#" id="hideEnvelope" class="btn-a"><img src="images/p19.png" srcset="images/p19@2x.png 2x"></a>
                     </div>
                 </div>
             </div>
             <div class="swiper-slide swiper-slide-2">
                 <div class="canvas-container">
+                    <div class="layer-hongbao"></div>
+                    <div class="coin-container">
+                    </div>
                     <!-- <canvas id="game"></canvas> -->
                     <div class="layer-cloud">
                         <div class="cloud-top"></div>
@@ -79,7 +83,6 @@
                     </div>
                     <!-- <canvas id="layer-cd"></canvas> -->
                 </div>
-                
                 <div class="result result-a">
                     <div class="result-head">
                     </div>
@@ -95,7 +98,9 @@
                         <p>
                             <span class="score">20000分</span>
                         </p>
-                        <p class="text">历史最高分5000分，再接再厉~<br/> 马上分享到朋友圈<br/> 和好友pk一下吧
+                        <p class="text">历史最高分5000分，再接再厉~
+                            <br/> 马上分享到朋友圈
+                            <br/> 和好友pk一下吧
                         </p>
                         <p>
                             <a class="restart" href="#"><img src="images/p40.png" srcset="images/p40@2x.png 2x" alt=""></a>
@@ -108,6 +113,11 @@
             </div>
         </div>
     </div>
+    <div class="pace pace-pack pace-active">
+        <div class="pace-progress" style="transform: translate3d(100%, 0px, 0px);">
+            <div class="pace-progress-inner"></div>
+        </div>
+    </div>
     <div class="copyright collapse">
         <div class="head ">
             <img src="images/p50.png" srcset="images/p50@2x.png 2x" alt="">盛世阳光 创意出品
@@ -115,7 +125,7 @@
         </div>
         <div class="body">
             <p>金融企业互联网+服务商</p>
-            <p>为金融行业提供互联网解决方案  网站建设、手机网站、微信平台；</p>
+            <p>为金融行业提供互联网解决方案 网站建设、手机网站、微信平台；</p>
             <p>微信游戏开发、微信专题设计开发；</p>
             <p>电话：010-51296822</p>
             <p>www.gonet.com.cn</p>
@@ -137,6 +147,7 @@
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
     <script src="/bower_components/underscore/underscore.js"></script>
+    <script src="/bower_components/buzz/dist/buzz.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js scripts/main.js -->

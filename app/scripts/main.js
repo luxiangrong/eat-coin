@@ -26,6 +26,8 @@ var paceOptions = {
 
 Pace.on('done', function() {
     jQuery(function($) {
+        console.log('done');
+        $('.pace-pack').remove();
         //在过场动画结束后添加动画场景动画效果
         var addAnimation = function() {
             window.setTimeout(function() {
@@ -44,6 +46,14 @@ Pace.on('done', function() {
         swiperAnimate($('.swiper-slide-1').get(0));
         addAnimation();
 
+        var soundBg = new buzz.sound("images/s04.mp3");
+        var soundGold = new buzz.sound("images/s01.mp3");
+        var soundSuccess = new buzz.sound("images/s02.mp3");
+        var soundFail = new buzz.sound("images/s03.mp3");
+
+
+        soundBg.loop().play();
+
         var showResult = function(score) {
             console.log('游戏结束，你获得了' + score + '分');
             $('.result').removeClass('slideOutUp').addClass('slideInDown').show();
@@ -54,6 +64,9 @@ Pace.on('done', function() {
                 $('.result .score').text(score + '分');
                 $('.result .star').removeClass('light');
                 $('.result .star').addClass('dark');
+                soundFail.play();
+            } else {
+                soundSuccess.play();
             }
 
             if (score >= scoreGradeA && score < scoreGradeB) {
@@ -62,6 +75,7 @@ Pace.on('done', function() {
                 $('.result .star').addClass('dark');
                 $('.result .star').eq(0).removeClass('dark');
                 $('.result .star').eq(0).addClass('light');
+
             }
 
             if (score >= scoreGradeB && score < scoreGradeC) {
@@ -95,10 +109,22 @@ Pace.on('done', function() {
             }, 500);
         }
 
+        // var soundLoader = new ARE.Loader();
+        // soundLoader.loadRes([{
+        //     id: 'success-sound',
+        //     src: "images/s01.mp3"
+        // }, {
+        //     id: 'fail-sound',
+        //     src: "images/s01.mp3"
+        // }]);
+
+
         var startCD, startGame;
 
         //初始化游戏场景
         var initGame = function() {
+
+            
 
             (function(ARE) {
                 var w = $(document).width();
@@ -122,8 +148,8 @@ Pace.on('done', function() {
 
                 //游戏相关配置参数
                 var startPerSecond = 2; // 开始时每秒掉落金币数
-                var endPerSecond = 8; //结束时每秒掉落金币数
-                var totalSecond = 30; //游戏总时间(毫秒)
+                var endPerSecond = 6; //结束时每秒掉落金币数
+                var totalSecond = 40; //游戏总时间(毫秒)
                 var scoreGold = 50,
                     scoreSilver = 30,
                     scoreCopper = 10;
@@ -237,6 +263,17 @@ Pace.on('done', function() {
                     stage = new Stage(canvas.get(0), localStorage.webgl == "1");
                     stage.debug = debug || false;
 
+                    var coinArray = [{
+                        el: '<i class="coin"><img srcset="images/p30.png 2x" /></i>',
+                        score: 50
+                    }, {
+                        el: '<i class="coin"><img srcset="images/p31.png 2x" /></i>',
+                        score: 30
+                    }, {
+                        el: '<i class="coin"><img srcset="images/p32.png 2x" /></i>',
+                        score: 10
+                    }];
+                    var coinPosArray = ['16.667%', '50%', '83.333%'];
 
                     var startTime = new Date().valueOf(); //游戏开始时间
                     var lastTime = new Date().valueOf(); //上一次出现金币的时间
@@ -267,47 +304,24 @@ Pace.on('done', function() {
                         $textCD.text(Math.abs(remainSecond).toFixed(1) + '秒');
                         if (nowTime - lastTime > intervalTime(startPerSecond, endPerSecond, totalSecond * 1000, nowTime - startTime)) {
                             var r = _.random(0, 2);
-                            var coin;
-                            switch (r) {
-                                case 0:
-                                    coin = new Bitmap(loader.get('gold'));
-                                    coin.score = scoreGold;
-                                    break;
-                                case 1:
-                                    coin = new Bitmap(loader.get('silver'));
-                                    coin.score = scoreSilver;
-                                    break;
-                                case 2:
-                                    coin = new Bitmap(loader.get('copper'));
-                                    coin.score = scoreCopper;
-                                    break;
-                            }
-                            coin.originX = coin.orginY = 0.5
-                            coin.scaleX = coin.scaleY = 0.5;
-                            coin.x = xArray[_.random(0, 2)];
-                            coin.onTouchStart(function() {
-                                // to.pause();
-                                currentScore += coin.score;
-                                $textScore.text(currentScore + '分');
-                                To.get(coin)
-                                    .to()
-                                    .scaleX(0.7, 300)
-                                    .scaleY(0.7, 300)
-                                    .alpha(0, 300)
-                                    .end(function() {
-                                        stage.remove(coin);
-                                        // to = null;  
-                                    })
-                                    .start();
+                            var coinData = coinArray[_.random(0, 2)];
+                            var coin = $(coinData.el);
+                            coin.css('left', coinPosArray[_.random(0, 2)]);
+                            coin.css('transition', 'opacity 1000ms,  transform ' + intervalTime(.5, 1, totalSecond * 1000, nowTime - startTime) + 'ms' + ' linear');
+                            coin.on('transitionEnd webkitTransitionEnd', function() {
+                                coin.remove();
                             });
-                            To.get(coin)
-                                .to()
-                                .y(h, intervalTime(.5, 1, totalSecond * 1000, nowTime - startTime))
-                                .end(function() {
-                                    stage.remove(coin);
-                                })
-                                .start();
-                            stage.add(coin);
+                            coin.on('touchstart', function() {
+                                currentScore += coinData.score;
+                                $textScore.text(currentScore + '分');
+                                coin.css('opacity', 0);
+                                coin.find('img').css('transform', 'scale(1.5)');
+                            });
+                            $('.coin-container').append(coin);
+                            window.setTimeout(function() {
+                                coin.css('transform', 'translate3d(0, ' + (h + 75) + 'px, 0)');
+                            }, 100);
+
                             lastTime = nowTime;
                         }
                     });
@@ -377,22 +391,22 @@ Pace.on('done', function() {
             $('.swiper-slide-1').hide();
             hideResult(startCD);
         });
-        var showShareGuild = function(){
+        var showShareGuild = function() {
             $('body').append('<div class="modal-backdrop modal-share fade"><img src="images/p47.png" srcset="images/p47@2x.png 2x"/><img src="images/p48.png" class="hack" /></div>');
         };
         var hideShareGuild = function() {
-            $('.modal-share').remove();
-        }
-        //分享
-        $('.share').on('click', function(e){
+                $('.modal-share').remove();
+            }
+            //分享
+        $('.share').on('click', function(e) {
             e.preventDefault();
             showShareGuild();
         });
-        $(document).on('click', '.modal-share', function(){
+        $(document).on('click', '.modal-share', function() {
             hideShareGuild();
         });
 
-        $('.collapse .toggle').click(function(){
+        $('.collapse .toggle').click(function() {
             $(this).closest('.collapse').toggleClass('in');
         });
     });
