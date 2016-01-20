@@ -264,13 +264,13 @@ Pace.on('done', function() {
                     stage.debug = debug || false;
 
                     var coinArray = [{
-                        el: '<i class="coin"><img srcset="images/p30.png 2x" /></i>',
+                        el: '<i class="coin"><img src="images/p30.png" srcset="images/p30.png 2x" /></i>',
                         score: 50
                     }, {
-                        el: '<i class="coin"><img srcset="images/p31.png 2x" /></i>',
+                        el: '<i class="coin"><img src="images/p31.png" srcset="images/p31.png 2x" /></i>',
                         score: 30
                     }, {
-                        el: '<i class="coin"><img srcset="images/p32.png 2x" /></i>',
+                        el: '<i class="coin"><img src="images/p32.png" srcset="images/p32.png 2x" /></i>',
                         score: 10
                     }];
                     var coinPosArray = ['16.667%', '50%', '83.333%'];
@@ -308,7 +308,9 @@ Pace.on('done', function() {
                             var coin = $(coinData.el);
                             coin.css('left', coinPosArray[_.random(0, 2)]);
                             coin.css('transition', 'opacity 1000ms,  transform ' + intervalTime(.5, 1, totalSecond * 1000, nowTime - startTime) + 'ms' + ' linear');
+                            coin.css('-webkit-transition', 'opacity 1000ms,  -webkit-transform ' + intervalTime(.5, 1, totalSecond * 1000, nowTime - startTime) + 'ms' + ' linear');
                             coin.on('transitionEnd webkitTransitionEnd', function() {
+                                $('#debug').text('remove');
                                 coin.remove();
                             });
                             coin.on('touchstart', function() {
@@ -316,10 +318,12 @@ Pace.on('done', function() {
                                 $textScore.text(currentScore + '分');
                                 coin.css('opacity', 0);
                                 coin.find('img').css('transform', 'scale(1.5)');
+                                coin.find('img').css('-webkit-transform', 'scale(1.5)');
                             });
                             $('.coin-container').append(coin);
                             window.setTimeout(function() {
                                 coin.css('transform', 'translate3d(0, ' + (h + 75) + 'px, 0)');
+                                coin.css('-webkit-transform', 'translate3d(0, ' + (h + 75) + 'px, 0)');
                             }, 100);
 
                             lastTime = nowTime;
