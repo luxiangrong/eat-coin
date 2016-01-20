@@ -262,6 +262,18 @@ body {
                 opacity: 1;
                 width: 75px;
                 height: 75px;
+                background: url(../images/p30.png) no-repat center center;
+                background-size: 75px 75px;
+                user-select: none;
+                &.gold {
+                    background-image: url(../images/p30.png);
+                }
+                &.silver {
+                    background-image: url(../images/p31.png);
+                }
+                &.copper {
+                    background-image: url(../images/p32.png);
+                }
                 img {
                     display: block;
                     transition: transform 1000ms;

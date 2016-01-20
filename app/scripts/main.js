@@ -38,6 +38,16 @@ Pace.on('done', function() {
             }, 3000)
         }
 
+        var parseToMatrix = function(str) {
+            var reg = /^matrix\((-?\d+),\s*(-?\d+),\s*(-?\d+),\s*(-?\d+),\s*(-?\d+),\s*(-?\d+)\)$/;
+            var matches = str.match(reg);
+            if ($.isArray(matches) && matches.length == 7) {
+                matches.splice(0, 1);
+                return matches;
+            }
+            return [0, 0, 0, 0, 0, 0];
+        };
+
         var scoreGradeA = 500,
             scoreGradeB = 1500,
             scoreGradeC = 2500;
@@ -124,7 +134,7 @@ Pace.on('done', function() {
         //初始化游戏场景
         var initGame = function() {
 
-            
+
 
             (function(ARE) {
                 var w = $(document).width();
@@ -264,13 +274,13 @@ Pace.on('done', function() {
                     stage.debug = debug || false;
 
                     var coinArray = [{
-                        el: '<i class="coin"><img src="images/p30.png" srcset="images/p30.png 2x" /></i>',
+                        el: '<i class="coin gold"></i>',
                         score: 50
                     }, {
-                        el: '<i class="coin"><img src="images/p31.png" srcset="images/p31.png 2x" /></i>',
+                        el: '<i class="coin silver"></i>',
                         score: 30
                     }, {
-                        el: '<i class="coin"><img src="images/p32.png" srcset="images/p32.png 2x" /></i>',
+                        el: '<i class="coin copper"></i>',
                         score: 10
                     }];
                     var coinPosArray = ['16.667%', '50%', '83.333%'];
@@ -314,11 +324,11 @@ Pace.on('done', function() {
                                 coin.remove();
                             });
                             coin.on('touchstart', function() {
+                                // var matrix = parseToMatrix(coin.css('transform'));
                                 currentScore += coinData.score;
                                 $textScore.text(currentScore + '分');
                                 coin.css('opacity', 0);
-                                coin.find('img').css('transform', 'scale(1.5)');
-                                coin.find('img').css('-webkit-transform', 'scale(1.5)');
+                                coin.css('transform', 'scale(1.5) translate3d(0, ' + (h + 75) + 'px, 0)');
                             });
                             $('.coin-container').append(coin);
                             window.setTimeout(function() {
